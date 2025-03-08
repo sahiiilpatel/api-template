@@ -9,13 +9,11 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/index.js"
+      "dest": "index.js"
     }
   ],
-  "includeFiles": [
-    "config/**"
-  ],
   "env": {
-    "NODE_CONFIG_DIR": "./config"
+    "NODE_ENV": "production",
+    "NODE_CONFIG_DIR": "/var/task/config"
   }
 }
