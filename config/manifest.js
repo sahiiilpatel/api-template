@@ -1,8 +1,6 @@
 'use strict';
 
-const config = require('config');
 const mongoose = require('mongoose');
-const Config = JSON.parse(JSON.stringify(config));
 
 process.env.NODE_ENV = 'production';
 process.env.NODE_CONFIG_DIR = `${__dirname}`;
@@ -49,7 +47,7 @@ let plugins = [
       defaultApplyPoint: 'onPreHandler',
     },
   },
-  { plugin: '@plugins/mongoose.plugin', options: { connections: Config.connections } },
+  { plugin: '@plugins/mongoose.plugin', options: { connections: { db: process.env.DB } } },
   { plugin: '@plugins/auth.plugin' },
   { plugin: '@routes/root.route' }
 ];
@@ -104,7 +102,10 @@ exports.manifest = {
       },
       auth: false,
     },
-    debug: Config.debug,
+    debug: {
+      request: ['error', 'info'],
+      log: ['info', 'error', 'warning']
+    },
     port: process.env.PORT || 3000,
   },
   register: { plugins },
