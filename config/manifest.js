@@ -48,20 +48,10 @@ let plugins = [
     },
   },
   { plugin: '@plugins/mongoose.plugin', options: { connections: { db: process.env.DB } } },
-  { plugin: '@plugins/auth.plugin' },
   { plugin: '@routes/root.route' }
 ];
 
-const routesOb = {
-  'auth.route': 'auth',
-  'subscription-plan.route': 'subscription-plan',
-  'payment.route': 'payment',
-  'dashboard.route': 'dashboard',
-  'pg.route': 'pg',
-  'room.route': 'room',
-  'hire-developer.route': 'hire-developer',
-  'project-inquiry.route': 'project-inquiry'
-};
+const routesOb = {}
 
 Object.keys(routesOb).forEach((route) => {
   plugins.push({

@@ -1,10 +1,10 @@
 'use strict';
 
-require('module-alias/register');
 require('dotenv').config();
+require('module-alias/register');
 
-const Glue = require('@hapi/glue');
 const Glob = require('glob');
+const Glue = require('@hapi/glue');
 const { manifest } = require('./config/manifest');
 
 const startServer = async () => {
@@ -24,10 +24,8 @@ const startServer = async () => {
   }
 };
 
-// Start the server
 startServer();
 
-// ✅ Export for Vercel
 module.exports = async (req, res) => {
   const response = await server.inject({
     method: req.method,
