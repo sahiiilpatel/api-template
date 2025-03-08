@@ -2,7 +2,6 @@ const express = require("express");
 const moment = require("moment");
 
 const app = express();
-const port = 1200;  // Use any port
 const serverStart = Date.now();
 
 app.get("/", (req, res) => {
@@ -15,11 +14,4 @@ app.get("/", (req, res) => {
     });
 });
 
-// Only listen when running locally
-if (process.env.NODE_ENV !== "production") {
-    app.listen(port, () => {
-        console.log(`Server running at http://localhost:${port}/`);
-    });
-}
-
-module.exports = app;
+module.exports = app; // No app.listen() needed for Vercel
