@@ -11,9 +11,5 @@
       "src": "/(.*)",
       "dest": "index.js"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production",
-    "NODE_CONFIG_DIR": "/var/task/config"
-  }
+  ]
 }

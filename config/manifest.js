@@ -4,11 +4,6 @@ const config = require('config');
 const mongoose = require('mongoose');
 const Config = JSON.parse(JSON.stringify(config));
 
-// Determine Environment
-const ENV = process.env.NODE_ENV || 'default';
-const IS_PRODUCTION = ENV === 'production';
-
-// Swagger Configuration
 const swaggerOptions = {
   info: {
     title: 'trogoninfotech-api-v1',
@@ -29,28 +24,22 @@ const swaggerOptions = {
   security: [{ jwt: [] }],
 };
 
-if (IS_PRODUCTION) {
-  swaggerOptions.schemes = ['https'];
-  swaggerOptions.host = process.env.API_BASEPATH || Config.constants.API_BASEPATH;
-  mongoose.set('debug', false); // Disable debug logs in production
-} else {
-  swaggerOptions.schemes = ['http', 'https'];
-  mongoose.set('debug', true); // Enable debug logs for local dev
-}
+swaggerOptions.schemes = ['https'];
+swaggerOptions.host = process.env.API_BASEPATH || Config.constants.API_BASEPATH;
+mongoose.set('debug', false);
 
-// Plugin Registration
 let plugins = [
   { plugin: '@hapi/vision' },
   { plugin: 'hapi-swagger', options: swaggerOptions },
-  { 
+  {
     plugin: 'hapi-dev-errors',
-    options: { showErrors: !IS_PRODUCTION, toTerminal: true }
+    options: { showErrors: false, toTerminal: true }
   },
   { plugin: '@hapi/inert' },
   { plugin: 'hapi-auth-jwt2' },
   { plugin: '@hapi/basic' },
   { plugin: '@hapipal/schmervice' },
-  { 
+  {
     plugin: 'mrhorse',
     options: {
       policyDirectory: `${__dirname}/../server/policies`,
@@ -62,7 +51,6 @@ let plugins = [
   { plugin: '@routes/root.route' }
 ];
 
-// API Routes with Prefix `/api/v1`
 const routesOb = {
   'auth.route': 'auth',
   'subscription-plan.route': 'subscription-plan',
@@ -81,7 +69,6 @@ Object.keys(routesOb).forEach((route) => {
   });
 });
 
-// Hapi Server Configuration
 exports.manifest = {
   server: {
     router: {
@@ -115,7 +102,7 @@ exports.manifest = {
       auth: false,
     },
     debug: Config.debug,
-    port: process.env.PORT || 3000, // Use port 3000 for Vercel
+    port: process.env.PORT || 3000,
   },
   register: { plugins },
 };
