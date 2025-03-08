@@ -4,9 +4,9 @@
   "description": "trogoninfotech api v1",
   "main": "index.js",
   "scripts": {
-    "start": "npm run start:local",
+    "start": "npm run start:production",
     "start:local": "cross-env nodemon index.js",
-    "start:production": "cross-env node index.js --production"
+    "start:production": "node index.js"
   },
   "lint-staged": {
     "**/*.js": [
