@@ -1,7 +1,8 @@
-const express = require("express");
-const moment = require("moment");
+import express from "express";
+import moment from "moment";
 
 const app = express();
+const port = 9000;
 const serverStart = Date.now();
 
 app.get("/", (req, res) => {
@@ -14,4 +15,6 @@ app.get("/", (req, res) => {
     });
 });
 
-module.exports = app; // No app.listen() needed for Vercel
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+});
