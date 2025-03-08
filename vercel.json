@@ -11,5 +11,11 @@
       "src": "/(.*)",
       "dest": "/index.js"
     }
-  ]
+  ],
+  "includeFiles": [
+    "config/**"
+  ],
+  "env": {
+    "NODE_CONFIG_DIR": "./config"
+  }
 }
