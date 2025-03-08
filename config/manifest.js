@@ -4,6 +4,11 @@ const config = require('config');
 const mongoose = require('mongoose');
 const Config = JSON.parse(JSON.stringify(config));
 
+process.env.NODE_ENV = 'production';
+process.env.NODE_CONFIG_DIR = `${__dirname}`;
+
+console.log('NODE_CONFIG_DIR: @@@@@@@@@@@@@@@@@', process.env.NODE_CONFIG_DIR);
+console.log('NODE_ENV: @@@@@@@@@@@@@@@@@', process.env.NODE_ENV);
 const swaggerOptions = {
   info: {
     title: 'trogoninfotech-api-v1',
