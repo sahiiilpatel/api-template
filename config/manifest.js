@@ -9,7 +9,6 @@ mongoose.set('debug', false);
 
 let plugins = [
   { plugin: '@hapi/vision' },
-  { plugin: 'hapi-dev-errors', options: { showErrors: false, toTerminal: true } },
   { plugin: '@hapi/inert' },
   { plugin: 'hapi-auth-jwt2' },
   { plugin: '@hapi/basic' },
