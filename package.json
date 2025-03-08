@@ -24,7 +24,6 @@
     "bluebird": "^3.7.2",
     "dotenv": "^16.4.7",
     "glob": "^11.0.1",
-    "hapi-auth-jwt2": "^11.0.0",
     "hapi-dev-errors": "^4.0.0",
     "hapi-swagger": "^17.3.2",
     "module-alias": "^2.2.3",

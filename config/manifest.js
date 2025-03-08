@@ -10,7 +10,6 @@ mongoose.set('debug', false);
 let plugins = [
   { plugin: '@hapi/vision' },
   { plugin: '@hapi/inert' },
-  { plugin: 'hapi-auth-jwt2' },
   { plugin: '@hapi/basic' },
   { plugin: '@hapipal/schmervice' },
   {
