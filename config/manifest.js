@@ -7,8 +7,6 @@ const Config = JSON.parse(JSON.stringify(config));
 process.env.NODE_ENV = 'production';
 process.env.NODE_CONFIG_DIR = `${__dirname}`;
 
-console.log('NODE_CONFIG_DIR: @@@@@@@@@@@@@@@@@', process.env.NODE_CONFIG_DIR);
-console.log('NODE_ENV: @@@@@@@@@@@@@@@@@', process.env.NODE_ENV);
 const swaggerOptions = {
   info: {
     title: 'trogoninfotech-api-v1',
@@ -30,7 +28,7 @@ const swaggerOptions = {
 };
 
 swaggerOptions.schemes = ['https'];
-swaggerOptions.host = process.env.API_BASEPATH || Config.constants.API_BASEPATH;
+swaggerOptions.host = 'api-three-mocha-92.vercel.app';
 mongoose.set('debug', false);
 
 let plugins = [
