@@ -5,37 +5,11 @@ const mongoose = require('mongoose');
 process.env.NODE_ENV = 'production';
 process.env.NODE_CONFIG_DIR = `${__dirname}`;
 
-const swaggerOptions = {
-  info: {
-    title: 'trogoninfotech-api-v1',
-    version: require('../package.json').version,
-    description: 'trogoninfotech-api-v1',
-  },
-  documentationPath: '/docs',
-  basePath: '/api',
-  tags: [],
-  grouping: 'tags',
-  securityDefinitions: {
-    jwt: {
-      type: 'apiKey',
-      name: 'Authorization',
-      in: 'header',
-    },
-  },
-  security: [{ jwt: [] }],
-};
-
-swaggerOptions.schemes = ['https'];
-swaggerOptions.host = 'api-three-mocha-92.vercel.app';
 mongoose.set('debug', false);
 
 let plugins = [
   { plugin: '@hapi/vision' },
-  { plugin: 'hapi-swagger', options: swaggerOptions },
-  {
-    plugin: 'hapi-dev-errors',
-    options: { showErrors: false, toTerminal: true }
-  },
+  { plugin: 'hapi-dev-errors', options: { showErrors: false, toTerminal: true } },
   { plugin: '@hapi/inert' },
   { plugin: 'hapi-auth-jwt2' },
   { plugin: '@hapi/basic' },
@@ -51,7 +25,7 @@ let plugins = [
   { plugin: '@routes/root.route' }
 ];
 
-const routesOb = {}
+const routesOb = {};
 
 Object.keys(routesOb).forEach((route) => {
   plugins.push({
