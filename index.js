@@ -1,17 +1,40 @@
-import express from "express";
-import moment from "moment";
+'use strict';
 
-const app = express();
-const serverStart = Date.now();
+require('module-alias/register');
+require('dotenv').config();
 
-app.get("/", (req, res) => {
-  const now = Date.now();
-  res.json({
-    up: now - serverStart,
-    upTime: new Date(serverStart).toLocaleString(),
-    serverTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
-    test: 1
+const Glue = require('@hapi/glue');
+const Glob = require('glob');
+const { manifest } = require('./config/manifest');
+
+const startServer = async () => {
+  try {
+    const server = await Glue.compose(manifest, { relativeTo: __dirname });
+
+    const services = Glob.sync('server/services/*.js');
+    services.forEach((service) => {
+      server.registerService(require(`${process.cwd()}/${service}`)); // ✅ Works in CommonJS
+    });
+
+    await server.start();
+    console.log(`✅ Hapi.js server is running at: ${server.info.uri}`);
+  } catch (err) {
+    console.error('❌ Server failed to start:', err);
+    process.exit(1);
+  }
+};
+
+// Start the server
+startServer();
+
+// ✅ Export for Vercel
+module.exports = async (req, res) => {
+  const response = await server.inject({
+    method: req.method,
+    url: req.url,
+    payload: req.body,
+    headers: req.headers
   });
-});
 
-export default app;
+  res.status(response.statusCode).send(response.result);
+};
