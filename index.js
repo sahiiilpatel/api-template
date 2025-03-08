@@ -1,27 +1,17 @@
-'use strict'
+import express from "express";
+import moment from "moment";
 
-require('module-alias/register')
-require('dotenv').config()
+const app = express();
+const serverStart = Date.now();
 
-const Glue = require('@hapi/glue')
-const Glob = require('glob')
-const { manifest } = require('./config/manifest')
+app.get("/", (req, res) => {
+  const now = Date.now();
+  res.json({
+    up: now - serverStart,
+    upTime: new Date(serverStart).toLocaleString(),
+    serverTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
+    test: 1
+  });
+});
 
-const startServer = async () => {
-  try {
-    const server = await Glue.compose(manifest, { relativeTo: __dirname })
-
-    const services = Glob.sync('server/services/*.js')
-    services.forEach(service => {
-      server.registerService(require(`${process.cwd()}/${service}`))
-    })
-
-    await server.start()
-    console.log(`Server listening on ${server.info.uri}`)
-  } catch (err) {
-    console.error(err)
-    process.exit(1)
-  }
-}
-
-startServer()
+export default app;
