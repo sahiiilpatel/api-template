@@ -1,20 +1,12 @@
 {
   "name": "trogoninfotech-api-v1",
   "version": "0.0.1",
-  "description": "trogoninfotech api v1",
+  "description": "trogoninfotech API v1",
   "main": "index.js",
   "scripts": {
-    "start": "npm run start:production",
-    "start:local": "cross-env nodemon index.js",
-    "start:production": "node index.js"
+    "start": "node index.js",
+    "vercel-build": "node index.js"
   },
-  "lint-staged": {
-    "**/*.js": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "author": "Sahil Patel <sahilpatel120302@gmail.com>",
   "dependencies": {
     "@hapi/basic": "^7.0.2",
     "@hapi/glue": "^9.0.1",
@@ -42,5 +34,8 @@
     "@policies": "server/policies",
     "@api": "server/api",
     "@validator": "server/api/validator"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }

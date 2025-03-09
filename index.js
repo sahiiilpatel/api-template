@@ -9,32 +9,34 @@ const { manifest } = require('./config/manifest');
 
 let server;
 
+// Lazy load the server for serverless
 const initServer = async () => {
-  try {
-    server = await Glue.compose(manifest, { relativeTo: __dirname });
+  if (!server) {
+    try {
+      server = await Glue.compose(manifest, { relativeTo: __dirname });
 
-    const services = Glob.sync('server/services/*.js');
-    services.forEach((service) => {
-      server.registerService(require(`${process.cwd()}/${service}`));
-    });
+      const services = Glob.sync('server/services/*.js');
+      services.forEach((service) => {
+        server.registerService(require(`${process.cwd()}/${service}`));
+      });
 
-    await server.initialize(); // Use `initialize` instead of `start` for serverless
-    console.log(`✅ Hapi.js server initialized`);
-  } catch (err) {
-    console.error('❌ Server failed to initialize:', err);
-    process.exit(1);
+      await server.initialize(); // Only initialize, don't `start` for serverless
+      console.log(`✅ Hapi.js server initialized`);
+    } catch (err) {
+      console.error('❌ Server failed to initialize:', err);
+      process.exit(1);
+    }
   }
 };
 
-// Initialize the server once
-initServer();
-
 module.exports = async (req, res) => {
+  await initServer(); // Ensure server is initialized
+
   const response = await server.inject({
     method: req.method,
     url: req.url,
     payload: req.body,
-    headers: req.headers,
+    headers: req.headers
   });
 
   res.status(response.statusCode).send(response.result);
