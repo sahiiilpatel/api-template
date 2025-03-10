@@ -1,41 +1,18 @@
 {
-  "name": "trogoninfotech-api-v1",
-  "version": "0.0.1",
-  "description": "trogoninfotech API v1",
+  "name": "api-template",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "vercel-build": "node index.js"
+    "start": "node index.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "@hapi/basic": "^7.0.2",
     "@hapi/glue": "^9.0.1",
-    "@hapi/inert": "^7.1.0",
-    "@hapi/vision": "^7.0.3",
-    "@hapipal/schmervice": "^3.0.0",
-    "bluebird": "^3.7.2",
+    "@hapi/hapi": "^21.4.0",
+    "@hapi/jwt": "^3.2.0",
     "dotenv": "^16.4.7",
-    "glob": "^11.0.1",
-    "hapi-dev-errors": "^4.0.0",
-    "hapi-swagger": "^17.3.2",
-    "module-alias": "^2.2.3",
-    "moment-timezone": "^0.5.47",
-    "mongoose": "^8.12.1",
-    "mrhorse": "^7.0.2",
-    "schmervice": "^1.0.0"
-  },
-  "_moduleAliases": {
-    "@root": ".",
-    "@models": "server/models",
-    "@lambda": "lambda",
-    "@plugins": "server/plugins",
-    "@routes": "server/routes",
-    "@utilities": "server/utilities",
-    "@policies": "server/policies",
-    "@api": "server/api",
-    "@validator": "server/api/validator"
-  },
-  "engines": {
-    "node": "18.x"
+    "mongoose": "^8.12.1"
   }
 }

@@ -1,43 +1,39 @@
-'use strict';
-
 require('dotenv').config();
-require('module-alias/register');
-
-const Glob = require('glob');
 const Glue = require('@hapi/glue');
-const { manifest } = require('./config/manifest');
+const connectDB = require('./server/utils/database'); // Import DB connection
+const manifest = require('./config/manifest');
 
-let server;
-
-// Lazy load the server for serverless
-const initServer = async () => {
-  if (!server) {
+const startServer = async () => {
     try {
-      server = await Glue.compose(manifest, { relativeTo: __dirname });
+        await connectDB(); // Connect to MongoDB
 
-      const services = Glob.sync('server/services/*.js');
-      services.forEach((service) => {
-        server.registerService(require(`${process.cwd()}/${service}`));
-      });
+        const server = await Glue.compose(manifest, { relativeTo: __dirname });
+        await server.start();
+        console.log(`✅ Server running at: ${server.info.uri}`);
 
-      await server.initialize(); // Only initialize, don't `start` for serverless
-      console.log(`✅ Hapi.js server initialized`);
+        return server;
     } catch (err) {
-      console.error('❌ Server failed to initialize:', err);
-      process.exit(1);
+        console.error('❌ Error starting server:', err);
+        process.exit(1);
     }
-  }
 };
 
+// Check if running locally (not on Vercel)
+if (require.main === module) {
+    startServer();
+}
+
+// Export handler for Vercel
 module.exports = async (req, res) => {
-  await initServer(); // Ensure server is initialized
+    console.log("calllllllll", true);
+    const server = await startServer();
 
-  const response = await server.inject({
-    method: req.method,
-    url: req.url,
-    payload: req.body,
-    headers: req.headers
-  });
+    const response = await server.inject({
+        method: req.method,
+        url: req.url,
+        payload: req.body,
+        headers: req.headers
+    });
 
-  res.status(response.statusCode).send(response.result);
+    res.status(response.statusCode).send(response.result);
 };
