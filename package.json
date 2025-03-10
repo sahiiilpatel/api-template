@@ -11,7 +11,9 @@
   "dependencies": {
     "@hapi/glue": "^9.0.1",
     "@hapi/hapi": "^21.4.0",
+    "@hapi/inert": "^7.1.0",
     "@hapi/jwt": "^3.2.0",
+    "@hapi/vision": "^7.0.3",
     "dotenv": "^16.4.7",
     "mongoose": "^8.12.1"
   }

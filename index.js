@@ -1,13 +1,17 @@
 require('dotenv').config();
+const Path = require('path'); 
 const Glue = require('@hapi/glue');
-const connectDB = require('./server/utils/database'); // Import DB connection
+const connectDB = require('./server/utils/database'); 
 const manifest = require('./config/manifest');
 
 const startServer = async () => {
     try {
-        await connectDB(); // Connect to MongoDB
+        await connectDB();
 
-        const server = await Glue.compose(manifest, { relativeTo: __dirname });
+        const server = await Glue.compose(manifest, { 
+            relativeTo: Path.join(__dirname, 'server') // Fix incorrect path
+        });
+
         await server.start();
         console.log(`✅ Server running at: ${server.info.uri}`);
 
@@ -18,7 +22,7 @@ const startServer = async () => {
     }
 };
 
-// Check if running locally (not on Vercel)
+// Start server only if running locally
 if (require.main === module) {
     startServer();
 }
